@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3>Список книг</h3>
+
+            <hr class="divider">
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Номер</th>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Жанр</th>
+                    <th>Комментарии</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="book in $ctrl.bookList">
+                    <td>{{book.id}}</td>
+                    <td>{{book.name}}</td>
+                    <td>{{book.author | myKeyValue:$ctrl.authors}}</td>
+                    <td>{{book.genre | myKeyValue:$ctrl.genres}}</td>
+                    <td>
+                        <a class="btn btn-link" ng-href="{{'#!/store/'+book.id+'/comments'}}">Комментарии</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-link" ng-href="{{'#!/store/' + book.id}}">Редактировать</a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger"
+                                ng-click="$ctrl.deleteBook(book.id)">Удалить
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
