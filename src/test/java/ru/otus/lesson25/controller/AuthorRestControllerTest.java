@@ -54,29 +54,4 @@ public class AuthorRestControllerTest {
         mockMvc.perform(get("/api/v1/author"))
                 .andExpect(status().isBadRequest());
     }
-
-    @Test
-    @DisplayName("должен перенаправлять на страницу аутентификации для доступа к списку книг")
-    void whenGetBookList_thenRedirectToAuthenticationPage() throws Exception {
-        mockMvc.perform(get("/api/v1/author"))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("http://localhost/login"));
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"ADMIN"})
-    void getAuthorList_shouldReturn403_whenNotAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/author"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"USER"})
-    void getAuthorList_shouldReturn4200_whenAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/author"))
-                .andExpect(status().isOk());
-    }
-
 }

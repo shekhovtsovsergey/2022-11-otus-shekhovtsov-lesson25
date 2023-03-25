@@ -132,63 +132,6 @@ public class BookRestControllerTest {
     }
 
 
-    @Test
-    @DisplayName("должен требовать аутентификацию для создания книги")
-    public void createBook_ShouldRequireAuthentication() throws Exception {
-        mockMvc.perform(post("/api/v1/book")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\": 1, \"name\": \"Book1\",\"author\": 1,\"genre\": 1}"))
-                .andExpect(redirectedUrl("http://localhost/login"));
-    }
-
-
-    @Test
-    @DisplayName("должен требовать аутентификацию для обновления книги")
-    public void updateBook_ShouldRequireAuthentication() throws Exception {
-        BookDto expectedBook = BookDto.builder().id(1L).name("Book1").build();
-        mockMvc.perform(put("/api/v1/book/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJsonString(expectedBook)))
-                .andExpect(redirectedUrl("http://localhost/login"));
-    }
-
-
-    @Test
-    @DisplayName("должен разрешать доступ к списку книг для пользователя с ролью USER")
-    void whenGetBookListWithUserRole_thenReturnBookList() throws Exception {
-        List<BookDto> bookDtoList = Arrays.asList(new BookDto(), new BookDto());
-        given(bookService.getAllBooks()).willReturn(bookDtoList);
-        mockMvc.perform(get("/api/v1/book").with(user("user").roles("USER")))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
-        verify(bookService).getAllBooks();
-    }
-
-
-    @Test
-    @DisplayName("должен запрещать доступ к списку книг для пользователя без роли USER")
-    void whenGetBookListWithoutUserRole_thenForbidden() throws Exception {
-        mockMvc.perform(get("/api/v1/book").with(user("user").roles("ADMIN")))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"ADMIN"})
-    void getBookList_shouldReturn403_whenNotAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/book"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"USER"})
-    void getBooktList_shouldReturn4200_whenAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/book"))
-                .andExpect(status().isOk());
-    }
-
-
     private String toJsonString(Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);

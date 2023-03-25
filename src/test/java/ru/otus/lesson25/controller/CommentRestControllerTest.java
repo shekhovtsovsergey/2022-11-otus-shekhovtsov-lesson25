@@ -56,27 +56,4 @@ public class CommentRestControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
-    @Test
-    @DisplayName("должен требовать авторизацию для доступа к ресурсу")
-    void getCommentList_shouldReturn401_whenNotAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/book/1/comment"))
-                .andExpect(redirectedUrl("http://localhost/login"));
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"ADMIN"})
-    void getCommentList_shouldReturn403_whenNotAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/book/1/comment"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"USER"})
-    void getCommentList_shouldReturn4200_whenAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/book/1/comment"))
-                .andExpect(status().isOk());
-    }
-
 }

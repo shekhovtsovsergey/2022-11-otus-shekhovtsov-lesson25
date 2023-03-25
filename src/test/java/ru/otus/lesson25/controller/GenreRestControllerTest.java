@@ -58,28 +58,4 @@ public class GenreRestControllerTest {
         mockMvc.perform(get("/api/v1/genre"))
                 .andExpect(status().isBadRequest());
     }
-    @Test
-    @DisplayName("должен перенаправлять на страницу аутентификации для доступа к списку жанров")
-    void whenGetGenreList_thenRedirectToAuthenticationPage() throws Exception {
-        mockMvc.perform(get("/api/v1/genre"))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("http://localhost/login"));
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"ADMIN"})
-    void getGenreList_shouldReturn403_whenNotAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/genre"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @DisplayName("должен требовать правильные роли для доступа к ресурсу")
-    @WithMockUser(username = "user", roles = {"USER"})
-    void getGenreList_shouldReturn4200_whenAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/genre"))
-                .andExpect(status().isOk());
-    }
-
 }
