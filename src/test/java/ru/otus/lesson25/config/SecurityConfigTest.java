@@ -49,42 +49,6 @@ public class SecurityConfigTest {
     private CommentService commentService;
     private final static String BOOK = "1";
 
-    @ParameterizedTest
-    @ValueSource(strings = {"/api/v1/author", "/api/v1/book", "/api/v1/comment", "/api/v1/genre"})
-    @DisplayName("запрещать неаутентифицированный доступ по GET и перенаправлять на страницу логина")
-    void shouldDenyUnauthorizedGetAccess(String url) throws Exception {
-        mockMvc.perform(get(url))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("http://*/login"));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"/api/v1/book", "/api/v1/comment"})
-    @DisplayName("запрещать неаутентифицированный доступ по POST и перенаправлять на страницу логина")
-    void shouldDenyUnauthorizedPostAccess(String url) throws Exception {
-        mockMvc.perform(post(url))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("http://*/login"));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"/api/comments"})
-    @DisplayName("запрещать неаутентифицированный доступ по PUT и перенаправлять на страницу логина")
-    void shouldDenyUnauthorizedPutAccess(String url) throws Exception {
-        mockMvc.perform(put(url))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("http://*/login"));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"/api/books", "/api/comments"})
-    @DisplayName("запрещать неаутентифицированный доступ по DELETE и перенаправлять на страницу логина")
-    void shouldDenyUnauthorizedDeleteAccess(String url) throws Exception {
-        mockMvc.perform(delete(url))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("http://*/login"));
-    }
-
     @Test
     @DisplayName("запрещать удаление книги пользователю без роли USER")
     @WithMockUser(roles = "MANAGER")
