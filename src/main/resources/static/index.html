@@ -1,0 +1,70 @@
+<!doctype html>
+<html ng-app="market" lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
+
+    <style>
+        .bg h3 {
+            height: 90vh;
+            text-align: center;
+        }
+
+        .bg {
+
+            /* The image used */
+            background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <ng-view></ng-view>
+        </div>
+    </div>
+</div>
+
+
+<script src="app/index.js"></script>
+<script src="app/services/api.service.js"></script>
+<script src="app/components/navbar/navbar.component.js"></script>
+<script src="app/filters/my-key-value.filter.js"></script>
+
+<script src="app/features/books/books.module.js"></script>
+<script src="app/features/books/components/book-comments/book-comments.component.js"></script>
+<script src="app/features/books/components/book-edit/book-edit.component.js"></script>
+<script src="app/features/books/components/book-create/book-create.component.js"></script>
+
+<script src="app/features/store/store.module.js"></script>
+<script src="app/features/store/components/store/store.component.js"></script>
+
+<script src="app/features/welcome/welcome.module.js"></script>
+<script src="app/features/welcome/components/welcome/welcome.component.js"></script>
+
+
+</body>
+</html>
