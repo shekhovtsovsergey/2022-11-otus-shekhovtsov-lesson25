@@ -68,7 +68,7 @@ public class SecurityConfigTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/api/comments"})
+    @ValueSource(strings = {"/api/v1/comment"})
     @DisplayName("запрещать неаутентифицированный доступ по PUT и перенаправлять на страницу логина")
     void shouldDenyUnauthorizedPutAccess(String url) throws Exception {
         mockMvc.perform(put(url))
@@ -77,7 +77,7 @@ public class SecurityConfigTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/api/books", "/api/comments"})
+    @ValueSource(strings = {"/api/v1/book/1"})
     @DisplayName("запрещать неаутентифицированный доступ по DELETE и перенаправлять на страницу логина")
     void shouldDenyUnauthorizedDeleteAccess(String url) throws Exception {
         mockMvc.perform(delete(url))
@@ -86,7 +86,7 @@ public class SecurityConfigTest {
     }
 
     @Test
-    @DisplayName("запрещать удаление книги пользователю без роли USER")
+    @DisplayName("запрещать удаление книги пользователю без роли ADMIN")
     @WithMockUser(roles = "MANAGER")
     void shouldDenyDeleteBookForUsers() throws Exception {
         mockMvc.perform(delete("/api/v1/book/{book}", BOOK))

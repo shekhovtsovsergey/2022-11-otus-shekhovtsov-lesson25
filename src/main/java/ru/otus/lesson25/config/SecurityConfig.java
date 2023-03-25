@@ -4,6 +4,7 @@ package ru.otus.lesson25.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,7 +20,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET,"/api/**").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/api/v1/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/v1/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/v1/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/api/v1/**").hasRole("ADMIN")
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")

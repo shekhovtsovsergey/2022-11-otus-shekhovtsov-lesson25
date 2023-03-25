@@ -21,7 +21,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -40,7 +39,7 @@ public class BookRestControllerTest {
     private BookService bookService;
 
     @Test
-    @WithMockUser(username = "user")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("должен уметь создавать книгу")
     public void createBook_ReturnBook() throws Exception {
         BookDto bookDto = new BookDto(1L,"Book1",1L,1L);
@@ -55,7 +54,7 @@ public class BookRestControllerTest {
 
 
     @Test
-    @WithMockUser(username = "user")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("должен уметь обновлять книгу")
     public void updateBook_ReturnBook() throws Exception {
         BookDto expectedBook = BookDto.builder().id(1L).name("Book1").build();
@@ -111,7 +110,7 @@ public class BookRestControllerTest {
 
 
     @Test
-    @WithMockUser(username = "user")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("должен уметь удалять книгу по id")
     public void deleteBookById_ReturnVoid() throws Exception {
         mockMvc.perform(delete("/api/v1/book/1"))
@@ -130,8 +129,6 @@ public class BookRestControllerTest {
                 .andExpect(content().string("Book Not Found, check your request"));
         verify(bookService).getBookById(1L);
     }
-
-
     private String toJsonString(Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);

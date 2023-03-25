@@ -3,6 +3,7 @@ package ru.otus.lesson25.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.lesson25.converter.BookConverter;
@@ -40,6 +41,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public List<BookDto> deleteBookById(Long id) {
         commentDao.deleteByBook(new Book(id,null, null,null,null));
         bookDao.deleteById(id);
@@ -48,6 +50,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public BookDto createBook(BookDto bookDto) throws AuthorNotFoundException, GenreNotFoundException {
         Author author = authorDao.findById(bookDto.getAuthor()).orElseThrow(() -> new AuthorNotFoundException(bookDto.getAuthor()));
         Genre genre = genreDao.findById(bookDto.getGenre()).orElseThrow(() -> new GenreNotFoundException(bookDto.getGenre()));
@@ -57,6 +60,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public BookDto updateBook(BookDto bookDto) throws AuthorNotFoundException, GenreNotFoundException {
         Author author = authorDao.findById(bookDto.getAuthor()).orElseThrow(() -> new AuthorNotFoundException(bookDto.getAuthor()));
         Genre genre = genreDao.findById(bookDto.getGenre()).orElseThrow(() -> new GenreNotFoundException(bookDto.getGenre()));
